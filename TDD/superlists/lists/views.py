@@ -14,10 +14,5 @@ def home_page(request):
         Item.objects.create(text=request.POST['item_text'])  #2
         return redirect('/')
     
-    return render(request, 'home.html')
-
-    # All this can go away since we're redirectin after a post
-    # alseo removed, adding a dummy value to new_item_text
-    #return render(request, 'home.html', {
-    #    'new_item_text': request.POST.get('item_text', '')
-    #})
+    items = Item.objects.all()
+    return render(request, 'home.html', {'items': items})
