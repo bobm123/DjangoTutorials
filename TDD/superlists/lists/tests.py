@@ -42,13 +42,27 @@ class HomePageTest(TestCase):
     
         response = home_page(request)
     
-        self.assertIn(myListItem, response.content.decode())
-        expected_html = render_to_string(
-            'home.html',
-            {'new_item_text':  myListItem}
-        )
-        self.assertEqual(response.content.decode(), expected_html)
+        self.assertEqual(Item.objects.count(), 1)  #1
+        new_item = Item.objects.first()  #2 same as: objects.all()[0]
+        self.assertEqual(new_item.text, 'A new list item')  #3
 
+        # Expecting a redirect now...
+        #self.assertIn(myListItem, response.content.decode())
+        #expected_html = render_to_string(
+        #    'home.html',
+        #    {'new_item_text':  myListItem}
+        #)
+        #self.assertEqual(response.content.decode(), expected_html)
+        
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+
+    def test_home_page_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Item.objects.count(), 0)
+        
 
 class ItemModelTest(TestCase):
 
