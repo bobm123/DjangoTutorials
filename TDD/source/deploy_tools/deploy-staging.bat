@@ -1,0 +1,1 @@
+fab deploy --host=balsachips-staging.net -i "C:\Users\Robert\Keys\robert-keypair-us-east.pem"  -H "ec2-54-84-200-120.compute-1.amazonaws.com" -u ubuntu

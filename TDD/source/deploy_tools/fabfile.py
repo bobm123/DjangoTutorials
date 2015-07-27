@@ -9,23 +9,25 @@ def deploy():
     work_folder = '/home/%s/work' % env.user
     site_url = 'balsachips.net'
     site_area = 'balsachips-staging'
-    site_area = 'balsachips-live'
-    
-    
+    #site_area = 'balsachips-live'
+   
     #site_folder = '/home/%s/sites/%s' % (env.user, env.host)
     site_folder = '/home/%s/sites/%s' % (env.user, site_area)
     source_folder = site_folder + '/source'
     _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(work_folder)
     _update_settings(work_folder, site_url)
-    #_update_virtualenv(source_folder)
-    #_update_static_files(source_folder)
-    #_update_database(source_folder)
+    #if not exists(source_folder):
+    #    run('ln -s %s/TDD/source %s' % (work_folder, site_folder))
+    run('cp -r %s/TDD/source %s' % (work_folder, site_folder))
+    _update_virtualenv(source_folder)
+    _update_static_files(source_folder)
+    _update_database(source_folder)
 
 
 def _create_directory_structure_if_necessary(site_folder):
-    #proj_folders = ('database', 'static', 'virtualenv', 'source')
-    proj_folders = ('database', 'static', 'virtualenv') # remove source because we gonna link to it
+    proj_folders = ('database', 'static', 'virtualenv', 'source')
+    #proj_folders = ('database', 'static', 'virtualenv') # remove source because we gonna link to it
     for pf in proj_folders:
         run('mkdir -p %s/%s' % (site_folder, pf))
 
@@ -56,7 +58,8 @@ def _update_settings(source_folder, site_name=env.host):
 
 
 def _update_virtualenv(source_folder):
-    virtualenv_folder = source_folder + '/../virtualenv'
+    #virtualenv_folder = source_folder + '/../virtualenv'
+    virtualenv_folder = '/home/ubuntu/sites/balsachips-staging/virtualenv'
     if not exists(virtualenv_folder + '/bin/pip'):
         run('virtualenv --python=python3 %s' % (virtualenv_folder,))
     run('%s/bin/pip install -r %s/requirements.txt' % (
