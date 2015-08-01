@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 from lists.models import Item, List
 
+from unittest import skip
+
 
 class ItemModelTest(TestCase):
 
