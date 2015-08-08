@@ -45,10 +45,7 @@ def _update_settings(source_folder, site_name=env.host):
     superlists_path = source_folder + '/TDD/source/superlists'
     settings_path = superlists_path + '/settings.py'
     sed(settings_path, "DEBUG = True", "DEBUG = False") 
-    sed(settings_path,
-        'ALLOWED_HOSTS =.+$',
-        'ALLOWED_HOSTS = ["%s"]' % (site_name,)
-    )
+    sed(settings_path, 'DOMAIN = "localhost"', 'DOMAIN = "%s"' % (site_name,))
     secret_key_file = superlists_path + '/secret_key.py'
     if not exists(secret_key_file): 
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
