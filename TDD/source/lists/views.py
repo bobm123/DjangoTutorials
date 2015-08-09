@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -31,5 +33,6 @@ def view_list(request, list_id):
 
 
 def my_lists(request, email):
-    return render(request, 'my_lists.html')
+    owner = User.objects.get(email=email)
+    return render(request, 'my_lists.html', {'owner': owner})
 
