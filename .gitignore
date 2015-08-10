@@ -63,3 +63,6 @@ collection/media
 
 # Ignoring .pdf files (for now)
 *.pdf
+
+# Ignoring functional tests screenshots
+screendumps/
